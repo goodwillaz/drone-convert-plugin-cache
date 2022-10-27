@@ -46,7 +46,7 @@ describe('plugin.js tests', () => {
     const result = plugin.run('kind: pipeline\nsteps:\n  - name: build\n    caches:\n    - npm');
     const config = yamlParse(result)[0];
     config.steps.length.should.equal(3);
-    config.steps[0].should.deep.include({
+    config.steps[0].should.deep.equal({
       name: 'build-cache-restore',
       image: 'foo',
       environment: {},
@@ -110,5 +110,12 @@ describe('plugin.js tests', () => {
     const config = yamlParse(result);
     config[0].steps.length.should.equal(3);
     config[1].steps.length.should.equal(3);
+  });
+
+  it ('should pass the "when" clause to the cache steps', () => {
+    const result = plugin.run('kind: pipeline\nsteps:\n  - name: build\n    caches:\n    - yarn\n    when: foo');
+    const config = yamlParse(result)[0];
+    config.steps[0].when.should.equal('foo');
+    config.steps[2].when.should.equal('foo');
   });
 });

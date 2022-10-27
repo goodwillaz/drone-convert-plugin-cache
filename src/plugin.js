@@ -102,8 +102,8 @@ export class Plugin {
         stepCaches.forEach(cachesUsed.add, cachesUsed);
 
         // Add our core step and then wrap it with restore and rebuild steps
-        const restoreStep = this.#createCacheStep(step.name, 'restore', stepCaches),
-              rebuildStep = this.#createCacheStep(step.name, 'rebuild', stepCaches);
+        const restoreStep = this.#createCacheStep(step.name, step?.when, 'restore', stepCaches),
+              rebuildStep = this.#createCacheStep(step.name, step?.when, 'rebuild', stepCaches);
 
         return [
           this.#addStepVolumes(restoreStep, stepCaches),
@@ -128,11 +128,12 @@ export class Plugin {
   /**
    *
    * @param {string} stepName
+   * @param {Object} when
    * @param {string} action
    * @param {Set} caches
    * @returns {{image, settings: {mount: *}, environment: {[p: number]: string}, name: string, volumes: [{path: string, name: string}]}}
    */
-  #createCacheStep (stepName, action, caches) {
+  #createCacheStep (stepName, when, action, caches) {
     const environment = Object.assign({}, this.#cacheEnv);
 
     const step = {
@@ -145,7 +146,8 @@ export class Plugin {
       volumes: [{
         name: 'cache',
         path: environment.PLUGIN_FILESYSTEM_CACHE_ROOT ?? '/tmp/cache'
-      }]
+      }],
+      when
     };
 
     step.settings[action] = true;
