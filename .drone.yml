@@ -3,11 +3,13 @@ kind: pipeline
 name: testing
 type: docker
 slack:
-  when: false
+  where: false
 
 steps:
   - name: test
     image: node:16-alpine
+    caches:
+      - npm
     commands:
       - npm ci
       - npm run lint
