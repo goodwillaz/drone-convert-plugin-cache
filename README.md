@@ -6,6 +6,7 @@ This [Drone](https://drone.io) converter plugin automatically adds cache restore
 * npm
 * yarn
 * pip
+* pipenv
 * gradle
 * maven
 * dotnetcore
