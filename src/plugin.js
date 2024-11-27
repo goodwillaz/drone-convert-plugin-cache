@@ -27,6 +27,7 @@ const cacheMap = {
   ivy2: '/root/.ivy2/cache',
   maven: '/root/.m2/repository',
   pip: '/root/.cache/pip',
+  pipenv: '/root/.cache/pipenv',
   sbt: '/root/.sbt',
 }
 
