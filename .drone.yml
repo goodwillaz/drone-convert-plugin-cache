@@ -7,7 +7,7 @@ slack:
 
 steps:
   - name: test
-    image: node:16-alpine
+    image: node:20-alpine
     caches:
       - npm
     commands:
